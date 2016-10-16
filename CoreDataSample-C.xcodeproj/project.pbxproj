@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B88257E1DB44785008FBF04 /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88257D1DB44785008FBF04 /* Product.m */; };
 		8A438B901DB2F5E300007EF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A438B8F1DB2F5E300007EF6 /* main.m */; };
 		8A438B931DB2F5E300007EF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A438B921DB2F5E300007EF6 /* AppDelegate.m */; };
 		8A438B961DB2F5E300007EF6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A438B951DB2F5E300007EF6 /* ViewController.m */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6B88257C1DB44746008FBF04 /* Product.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
+		6B88257D1DB44785008FBF04 /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
 		8A438B8B1DB2F5E300007EF6 /* CoreDataSample-C.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CoreDataSample-C.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A438B8F1DB2F5E300007EF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8A438B911DB2F5E300007EF6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -70,6 +73,8 @@
 				8A438BA21DB2F5E300007EF6 /* Info.plist */,
 				8A438B9A1DB2F5E300007EF6 /* CoreDataSample_C.xcdatamodeld */,
 				8A438B8E1DB2F5E300007EF6 /* Supporting Files */,
+				6B88257C1DB44746008FBF04 /* Product.h */,
+				6B88257D1DB44785008FBF04 /* Product.m */,
 			);
 			path = "CoreDataSample-C";
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			files = (
 				8A438B9C1DB2F5E300007EF6 /* CoreDataSample_C.xcdatamodeld in Sources */,
 				8A438B961DB2F5E300007EF6 /* ViewController.m in Sources */,
+				6B88257E1DB44785008FBF04 /* Product.m in Sources */,
 				8A438B931DB2F5E300007EF6 /* AppDelegate.m in Sources */,
 				8A438B901DB2F5E300007EF6 /* main.m in Sources */,
 			);
@@ -313,6 +319,7 @@
 				8A438BA71DB2F5E300007EF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
