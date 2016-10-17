@@ -20,6 +20,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     [self saveProduct:@"iPhone 6S" price:[NSDecimalNumber decimalNumberWithString:@"15.99"]];
+    
+    [self showProduct];
 }
 
 
@@ -50,6 +52,25 @@
     }
 }
 
+- (void)showProduct {
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Product"];
+    
+    NSError *error = nil;
+    
+    NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if (error != nil) {
+        NSLog(@"Failed: %@", error);
+    }
+    else {
+        NSLog(@"Product Count = %lu", (unsigned long)results.count);
+        for(AAAProductMO *product in results) {
+            NSLog(@"Product name = %@", product.name);
+            NSLog(@"Product price = %@", product.price);
+        }
+    }
+}
 
 - (NSManagedObjectContext *)managedObjectContext
 {
