@@ -22,6 +22,8 @@
     [self saveProduct:@"iPhone 6S" price:[NSDecimalNumber decimalNumberWithString:@"15.99"]];
     
     [self showProduct];
+    [self editProduct:@"iPhone 6S" price:[NSDecimalNumber decimalNumberWithString:@"1599.99"]];
+    [self showProduct];
 }
 
 
@@ -72,6 +74,44 @@
     }
 }
 
+- (void)editProduct :(NSString *)name price:(NSDecimalNumber*)price {
+    
+    // Create the request
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Product"];
+    
+    // Build the predicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
+    request.predicate = predicate;
+    
+    // Define sorting
+    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    request.sortDescriptors = @[sortDesc];
+    
+    NSError *error;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if (error != nil) {
+        NSLog(@"Failed: %@", error);
+    }
+    else {
+        NSLog(@"Product Count = %lu", (unsigned long)results.count);
+        AAAProductMO *product = [results objectAtIndex:0];
+        product.price = price;
+        NSError *error;
+        [self.managedObjectContext save:&error];
+        if (error != nil) {
+            NSLog(@"Edit Product Failed: %@", error);
+        }
+        else {
+            NSLog(@"Product Edited.");
+        }
+    }
+}
+
+
+
+
+
 - (NSManagedObjectContext *)managedObjectContext
 {
     if (_managedObjectContext != nil) {
@@ -85,6 +125,7 @@
     }
     return _managedObjectContext;
 }
+
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
@@ -119,6 +160,5 @@
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
-
 
 @end
