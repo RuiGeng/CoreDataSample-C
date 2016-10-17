@@ -19,10 +19,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    [self saveProduct:@"iPhone 6S" price:[NSDecimalNumber decimalNumberWithString:@"15.99"]];
     
+    [self saveProduct:@"iPhone 6S" price:[NSDecimalNumber decimalNumberWithString:@"15.99"]];
     [self showProduct];
+    
     [self editProduct:@"iPhone 6S" price:[NSDecimalNumber decimalNumberWithString:@"1599.99"]];
+    [self showProduct];
+    
+    [self delteProduct:@"iPhone 6S"];
     [self showProduct];
 }
 
@@ -34,8 +38,10 @@
 
 - (void)saveProduct :(NSString *)name price:(NSDecimalNumber*)price {
     
+    // Create the NSEntityDescription
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Product" inManagedObjectContext:self.managedObjectContext];
     
+    // Creates an instance of the class for the NSEntityDescription
     AAAProductMO *product = [[AAAProductMO alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:self.managedObjectContext];
     
     product.name = name;
@@ -43,7 +49,7 @@
     
     [self.managedObjectContext insertObject:product];
     
-    NSError *error;
+    NSError *error = nil;
     [self.managedObjectContext save:&error];
     
     if (error != nil) {
@@ -56,10 +62,12 @@
 
 - (void)showProduct {
     
+    // Create the request
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Product"];
     
     NSError *error = nil;
     
+    // Search all Products
     NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if (error != nil) {
@@ -87,7 +95,8 @@
     NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
     request.sortDescriptors = @[sortDesc];
     
-    NSError *error;
+    // Use request search
+    NSError *error = nil;
     NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if (error != nil) {
@@ -95,9 +104,13 @@
     }
     else {
         NSLog(@"Product Count = %lu", (unsigned long)results.count);
-        AAAProductMO *product = [results objectAtIndex:0];
-        product.price = price;
-        NSError *error;
+        
+        //Loop all product results
+        for(AAAProductMO *product in results) {
+            product.price = price;
+        }
+        
+        //Save product
         [self.managedObjectContext save:&error];
         if (error != nil) {
             NSLog(@"Edit Product Failed: %@", error);
@@ -108,6 +121,44 @@
     }
 }
 
+- (void)delteProduct :(NSString *)name  {
+    
+    // Create the request
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Product"];
+    
+    // Build the predicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
+    request.predicate = predicate;
+    
+    // Define sorting
+    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    request.sortDescriptors = @[sortDesc];
+    
+    // Use request search
+    NSError *error = nil ;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if (error != nil) {
+        NSLog(@"Failed: %@", error);
+    }
+    else {
+        NSLog(@"Product Count = %lu", (unsigned long)results.count);
+        
+        //Loop all product results
+        for(AAAProductMO *product in results) {
+            [self.managedObjectContext deleteObject:product];
+        }
+        
+        //Save Context
+        [self.managedObjectContext save:&error];
+        if (error != nil) {
+            NSLog(@"Delete Product Failed: %@", error);
+        }
+        else {
+            NSLog(@"Product Delete.");
+        }
+    }
+}
 
 
 
